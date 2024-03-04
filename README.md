@@ -1,0 +1,2 @@
+# sjw
+Study japanese words
