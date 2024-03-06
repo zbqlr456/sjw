@@ -9,7 +9,7 @@ class DefaultLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(GoRouterState.of(context).matchedLocation),
+        title: Text(GoRouterState.of(context).name!),
       ),
       body: body,
     );

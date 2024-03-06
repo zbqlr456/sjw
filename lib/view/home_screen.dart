@@ -7,16 +7,16 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<int> jlptNum = [5,4,3,2,1,0];
+
     return DefaultLayout(
       body: ListView(
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              context.goNamed('n5');
-            },
-            child: Text('N5'),
-          ),
-        ],
+        children: jlptNum.map((e) => ElevatedButton(
+          onPressed: () {
+            context.goNamed('n$e');
+          },
+          child: Text('N$e'),
+        ),).toList(),
       ),
     );
   }
