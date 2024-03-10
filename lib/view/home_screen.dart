@@ -13,9 +13,9 @@ class HomeScreen extends StatelessWidget {
       body: ListView(
         children: jlptNum.map((e) => ElevatedButton(
           onPressed: () {
-            context.goNamed('n$e');
+            context.go('/word/$e');
           },
-          child: Text('N$e'),
+          child: e == 0 ? Text('외운 단어') : Text('N$e'),
         ),).toList(),
       ),
     );

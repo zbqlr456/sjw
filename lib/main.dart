@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:study_japanese_words/route/router.dart';
 
-void main() {
+void main(){
   runApp(
     const ProviderScope(
       child: _App(),
