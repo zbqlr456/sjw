@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
           onPressed: () {
             context.go('/word/$e');
           },
-          child: e == 0 ? Text('외운 단어') : Text('N$e'),
+          child: e == 0 ? Text('외운 단어 복습') : Text('N$e'),
         ),).toList(),
       ),
     );
