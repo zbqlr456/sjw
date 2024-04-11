@@ -14,9 +14,9 @@ final router = GoRouter(
         GoRoute(
           path: 'word/:level',
           name: 'word',
-          builder: (context, state){
+          builder: (context, state) {
             return JLPTWordScreen();
-          }
+          },
         ),
       ],
     ),
