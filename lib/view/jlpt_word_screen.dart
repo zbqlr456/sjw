@@ -6,7 +6,9 @@ import 'package:study_japanese_words/model/word_model.dart';
 import 'package:study_japanese_words/provider/word_list_provider.dart';
 
 class JLPTWordScreen extends ConsumerStatefulWidget {
-  const JLPTWordScreen({super.key});
+  final String level;
+  final int count;
+  const JLPTWordScreen({required this.level, required this.count, super.key});
 
   @override
   ConsumerState<JLPTWordScreen> createState() => _JLPTWordScreenState();
@@ -14,7 +16,6 @@ class JLPTWordScreen extends ConsumerStatefulWidget {
 
 class _JLPTWordScreenState extends ConsumerState<JLPTWordScreen> {
   int i = 0;
-  late String level;
 
   late List<WordModel> wordList;
   List<WordModel> levelWordList = [];
@@ -25,13 +26,9 @@ class _JLPTWordScreenState extends ConsumerState<JLPTWordScreen> {
   Widget build(BuildContext context) {
     TextStyle nowWordStyle = TextStyle(color: Colors.black, fontSize: 30);
 
-    final String pathParameter =
-    GoRouterState.of(context).pathParameters.toString();
-    level = extractNumbers(pathParameter);
-
     if (levelWordList.isEmpty) {
       wordList = ref.read(wordListProvider);
-      levelWordList = filterLevelWords(wordList, level);
+      levelWordList = filterLevelWords(wordList, widget.level);
       checkWordList = List<bool>.generate(levelWordList.length, (index) => false);
       levelWordList.shuffle();
     }
@@ -60,6 +57,8 @@ class _JLPTWordScreenState extends ConsumerState<JLPTWordScreen> {
                   onPressed: () {
                     setState(() {
                       i += 1;
+                      print(widget.level);
+                      print(widget.count);
                     });
                   },
                   child: Text('몰라요'),

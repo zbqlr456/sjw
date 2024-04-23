@@ -12,10 +12,12 @@ final router = GoRouter(
       },
       routes: [
         GoRoute(
-          path: 'word/:level',
+          path: 'word',
           name: 'word',
           builder: (context, state) {
-            return JLPTWordScreen();
+            final level = state.uri.queryParameters['level'] ?? '0';
+            final count = state.uri.queryParameters['count'] ?? '10';
+            return JLPTWordScreen(level: level, count: int.parse(count));
           },
         ),
       ],
