@@ -13,31 +13,31 @@ class JLPTWordScreen extends ConsumerStatefulWidget {
 }
 
 class _JLPTWordScreenState extends ConsumerState<JLPTWordScreen> {
-
+  int i = 0;
   late String level;
 
   late List<WordModel> wordList;
-  late List<WordModel> levelWordList;
+  List<WordModel> levelWordList = [];
   late List<bool> checkWordList;
   late WordModel nowWord;
 
   @override
-  void initState() {
-    super.initState();
-
-    levelWordList = filterLevelWords(wordList, level);
-    checkWordList = List<bool>.generate(levelWordList.length, (index) => false); // 학습했는지 체크하는 List
-    levelWordList.shuffle(); // 랜덤으로 섞기
-
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final String pathParameter = GoRouterState.of(context).pathParameters.toString();
+    TextStyle nowWordStyle = TextStyle(color: Colors.black, fontSize: 30);
+
+    final String pathParameter =
+    GoRouterState.of(context).pathParameters.toString();
     level = extractNumbers(pathParameter);
 
-    wordList = ref.watch(wordListProvider);
-    nowWord = WordModel(level: level, chinese: '', japanese: '', korean: '', pos: '');
+    if (levelWordList.isEmpty) {
+      wordList = ref.read(wordListProvider);
+      levelWordList = filterLevelWords(wordList, level);
+      checkWordList = List<bool>.generate(levelWordList.length, (index) => false);
+      levelWordList.shuffle();
+    }
+
+    nowWord = levelWordList[i];
+
     return DefaultLayout(
       body: Stack(
         children: [
@@ -45,9 +45,9 @@ class _JLPTWordScreenState extends ConsumerState<JLPTWordScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(nowWord.japanese),
-                Text(nowWord.chinese),
-                Text(nowWord.korean),
+                Text(nowWord.japanese, style: nowWordStyle),
+                Text(nowWord.chinese, style: nowWordStyle),
+                Text(nowWord.korean, style: nowWordStyle),
               ],
             ),
           ),
@@ -56,8 +56,22 @@ class _JLPTWordScreenState extends ConsumerState<JLPTWordScreen> {
             right: 20,
             child: Column(
               children: [
-                ElevatedButton(onPressed: (){}, child: Text('몰라요'),),
-                ElevatedButton(onPressed: (){}, child: Text('알아요'),),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      i += 1;
+                    });
+                  },
+                  child: Text('몰라요'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      i += 1;
+                    });
+                  },
+                  child: Text('알아요'),
+                ),
               ],
             ),
           ),
