@@ -59,6 +59,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
+                      Navigator.of(context).pop();
                       context.push('/word?level=$level&count=$count');
                     },
                     child: Text('시작!'),

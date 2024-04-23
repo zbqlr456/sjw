@@ -8,6 +8,7 @@ import 'package:study_japanese_words/provider/word_list_provider.dart';
 class JLPTWordScreen extends ConsumerStatefulWidget {
   final String level;
   final int count;
+
   const JLPTWordScreen({required this.level, required this.count, super.key});
 
   @override
@@ -29,7 +30,8 @@ class _JLPTWordScreenState extends ConsumerState<JLPTWordScreen> {
     if (levelWordList.isEmpty) {
       wordList = ref.read(wordListProvider);
       levelWordList = filterLevelWords(wordList, widget.level);
-      checkWordList = List<bool>.generate(levelWordList.length, (index) => false);
+      checkWordList =
+          List<bool>.generate(levelWordList.length, (index) => false);
       levelWordList.shuffle();
     }
 
@@ -56,9 +58,7 @@ class _JLPTWordScreenState extends ConsumerState<JLPTWordScreen> {
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      i += 1;
-                      print(widget.level);
-                      print(widget.count);
+                      click(know: false);
                     });
                   },
                   child: Text('몰라요'),
@@ -66,7 +66,7 @@ class _JLPTWordScreenState extends ConsumerState<JLPTWordScreen> {
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      i += 1;
+                      click(know: true);
                     });
                   },
                   child: Text('알아요'),
@@ -79,6 +79,37 @@ class _JLPTWordScreenState extends ConsumerState<JLPTWordScreen> {
     );
   }
 
+  ///
+  /// Widgets
+  ///
+
+  Future _showDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('단어 공부 완료!'),
+              ElevatedButton(
+                onPressed: () {
+                  context.go('/');
+                },
+                child: Text('홈으로'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  ///
+  /// Methods
+  ///
+
   // "{level : 1}" 을 "1" 로 바꿔주는 함수
   String extractNumbers(String str) {
     final RegExp regExp = RegExp(r'\d+');
@@ -90,5 +121,13 @@ class _JLPTWordScreenState extends ConsumerState<JLPTWordScreen> {
   // 레벨에 맞는 WordModel 들만 추출해주는 함수
   List<WordModel> filterLevelWords(List<WordModel> wordList, String level) {
     return wordList.where((word) => word.level == level).toList();
+  }
+
+  // 알아요(know = true), 몰라요(know = false) 클릭했을 때 동작하는 함수
+  void click({required bool know}) {
+    i += 1;
+    if (i == widget.count) {
+      _showDialog(context);
+    }
   }
 }
